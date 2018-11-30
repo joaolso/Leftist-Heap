@@ -8,6 +8,7 @@
 // left = pronteiro filho da esquerda			//
 // pai = pai do no								//
 
+int opp=0;
 struct node * merge(struct node*, struct node*);
 struct node * mergeT(struct node*, struct node*);
 
@@ -16,35 +17,22 @@ struct node {												// Contrucao da estrutura dos NOS
 	struct node *right, *left;
 }
 
+
 *temp, *root;
 
-void visualiza(struct node *ra){							// funcao que imprime em in-Ordem
+struct node * deletar(struct node * root){
+	root=merge(root->right,root->left);
+}
+
+int visualiza(struct node *ra){							// funcao que imprime em in-Ordem
 	if(ra!=NULL){											// verifica a condicao de NULL (folha da raiz)
 		visualiza(ra->left);								// recurssao filho da esquerda
-		printf("\t|%d| ",ra->key);							// imprime na tela
+		printf(" |%d| ",ra->key);							// imprime na tela
 		visualiza(ra->right);								// recurssao filho da direita
 	}
 }
 
-//void swap(struct node *h1,struct node *h2){								// funcao que verifica os ccn
-//	temp = h1;
-//	h1=h2;
-//	h2=temp;
-//	printf("oi");
-//}
 
-//struct node * mergeT (struct node *h1,  node *h2){
-//	if (h1->left == NULL)
-//		h1->left=h2;
-//	else{
-//		h1->right = merge(h1->right, h2);
-//		if ((h1->left->ccn) < (h1->right->ccn)){
-//			trocaFilho(h1);
-//			h1->ccn = h1->right->ccn+1;
-//		}
-//	}
-//	return h1;
-//}
 int distance(struct node *m){
 	if(m==NULL)
 		return(-1);
@@ -57,7 +45,7 @@ struct node * merge (struct node *root, struct node *newnode){
 		return newnode; 
 	if (newnode==NULL) 										// condicoes de para da recurssao
 		return root;
-	if (newnode->key < root->key){ 
+	if (newnode->key < root->key){
 		temp=root;
 		root=newnode;
 		newnode=temp;
@@ -66,6 +54,7 @@ struct node * merge (struct node *root, struct node *newnode){
 	root->right = merge(root->right, newnode);
 	
 	if (distance(root->right) > distance(root->left)){
+		opp++;
 		temp=root->right;
 		root->right=root->left;
 		root->left=temp;
@@ -77,47 +66,53 @@ struct node * merge (struct node *root, struct node *newnode){
 		root->ccn = 1+(root->right->ccn);
 	}
 	return (root);
-}															// troca de valor com raiz e temp
+}														
 												
-struct node * inserir(struct node *root, int valor) {		// Funcao inseri novo no, tabalha juntamente da funcao merge
-	if (root->key==0){										// verifica se ja existe uma raiz se tiver valor 0 ele ja foi criada
-		root->key = valor;									// atribui o valor a raiz
-		return(root);										// retorna a funcao
-	}else {								
+struct node * inserir(int valor) {
+	if (root->key==0){
+		root->key=valor;
+	}else{													// Funcao inseri novo no, tabalha juntamente da funcao merge// retorna a funcao							
 		struct node *newnode;								// Constroi o pronteiro
 		newnode=(struct node *)malloc(sizeof(struct node));	// Aloca espaco na memoria
 		newnode->right=NULL;								// default inicilizacao e garantia de nao coleta de lixo	
-		newnode->left=NULL;									//
-		newnode->ccn=0;										//
-		newnode->key = valor;								//
-		root=merge(root, newnode);							//
+		newnode->left=NULL;									// *
+		newnode->ccn=0;										// *
+		newnode->key = valor;								// *
+		root=merge(root, newnode);							// *
 	}
 	return (root);
 }
 
-int main(){	
+int main(){
+
 	root=(struct node *)malloc(sizeof(struct node));		//Constoi a raiz ao iniciar o programa
 	root->right=NULL;
 	root->left=NULL;
 	root->key=0;
 	root->ccn=0;
-
 	
 	while(1){
-		printf("\n Escolha a opcao: \n 1.Inserir 2.Visualizar 3.Sair\n");
+		printf("\n Escolha a opcao: \n 1.Inserir 2.Visualizar 3.Deletar(Min) 4.Sair\n");
 		int valor,opc=0;
 		int paratudo=0;
 		scanf("%d",&opc);
 			switch(opc){
 			case 1:
+				system("cls");
 				printf("Informe o valor: ");
 				scanf("%d",&valor);
-				inserir(root,valor);
+				inserir(valor);
 				break;
 			case 2:
 				visualiza(root);
+				printf("\nRaiz: %d\n",root->key);
+				printf("CCN Raiz: %d\n",root->ccn);
+				printf("Qtd de rotacoes(filhos): %d\n", opp);
 				break;
 			case 3:
+				root=deletar(root);
+				break;
+			case 4:
 				paratudo=1;
 				break;
 			default:
