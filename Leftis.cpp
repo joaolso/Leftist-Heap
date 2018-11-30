@@ -24,6 +24,20 @@ struct node * deletar(struct node * root){
 	root=merge(root->right,root->left);
 }
 
+int altura (struct node *root){
+	int u=0,v=0;
+	if (root == NULL)
+		return -1;
+	
+	u = altura(root->left);
+	v = altura(root->right);
+	
+	if (u > v) 
+		return u+1;
+	else
+		return v+1; 
+}
+
 int visualiza(struct node *ra){							// funcao que imprime em in-Ordem
 	if(ra!=NULL){											// verifica a condicao de NULL (folha da raiz)
 		visualiza(ra->left);								// recurssao filho da esquerda
@@ -31,7 +45,6 @@ int visualiza(struct node *ra){							// funcao que imprime em in-Ordem
 		visualiza(ra->right);								// recurssao filho da direita
 	}
 }
-
 
 int distance(struct node *m){
 	if(m==NULL)
@@ -108,6 +121,7 @@ int main(){
 				printf("\nRaiz: %d\n",root->key);
 				printf("CCN Raiz: %d\n",root->ccn);
 				printf("Qtd de rotacoes(filhos): %d\n", opp);
+				printf("Altura da Arvore: %d\n",altura(root));
 				break;
 			case 3:
 				root=deletar(root);
