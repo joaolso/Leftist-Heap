@@ -1,18 +1,30 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+
+// Turma EDPA 2018.2 - Um agradecimento especial a todos envolvidos nesse projeto         //
+// Discentes: Divino 			|	Orientadora: Prof(a) Dr(a) Marcia Rodrigues Cappelle  //
+//			  Joao Lucas
+//			  Naiane
+//			  Paulo Henrique
+
+// - Leftist Heap //
+
+
+// Variaveis Globais //
 					
 int opf=0;
 double total_t=0;
 
-
+// Funcoes  //
 struct node * merge(struct node*, struct node*);
 
-
+// Estrutura do No/Arvore //
 struct node {													// Contrucao da estrutura dos NOS
 	int key, ccn;
 	struct node *right, *left;
 }
+
 
 *temp, *root;
 
