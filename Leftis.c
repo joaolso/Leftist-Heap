@@ -17,7 +17,7 @@ void aloca(int);
 struct node * merge(struct node*, struct node*);
 
 // Variaveis Globais //				
-int opf=0, count=0, contador=0;
+int opf=0, count=0, opr=0;
 int *htable;
 long int TS=0;
 
@@ -67,16 +67,16 @@ int visualiza(struct node *ra){									// funcao que imprime em in-Ordem
 	}
 }
 
-int verifica (int contador){
-	int i=0,j=0;
-	for(i = 0; i < TS; i++){
-	    for(j = i + 1; j < TS; j++){
-	        if(htable[i] == htable[j])
-	            contador++;
-	    }
-    }
-    return contador;
-}
+//int verifica (int contador){
+//	int i=0,j=0;
+//	for(i = 0; i < TS; i++){
+//	    for(j = i + 1; j < TS; j++){
+//	        if(htable[i] == htable[j])
+//	            contador++;
+//	    }
+//    }
+//    return contador;
+//}
 
 
 int distance(struct node *m){									// Calcula o CCN
@@ -90,7 +90,9 @@ struct node * merge (struct node *root, struct node *newnode){
 	if (root==NULL)												// condicoes de parada da recurssao
 		return newnode; 										// retorna novo NO
 	if (newnode==NULL) 											// condicoes de para da recurssao
-		return root;											// retorna RAIZ
+		return root;		
+
+	opr++;
 	if (newnode->key < root->key){								// verifica se o novo NO e menor que a RAIZ
 		temp=root;												// operacao de troca de NO
 		root=newnode;										
@@ -113,6 +115,7 @@ struct node * merge (struct node *root, struct node *newnode){
 }														
 												
 struct node * inserir (int valor) {
+	count++;
 	if (root->key==0){											// Verifica se a primeira vez, logo eh preciso atribuir valor a raiz
 		root->key=valor;
 	}else{														// Funcao inseri novo no, tabalha juntamente da funcao merge						
@@ -170,12 +173,14 @@ void ins () {
 				printf(" # CCN Raiz: %d\n",root->ccn);
 				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
 				printf(" # Tempo (ms): %f \n", total_t);
-				printf(" # Qtd chaves geradas: %d\n",valor);
-				printf(" # Qtd de chaves geradas iguais: %d\n",verifica(contador));			
+				printf(" # Qtd chaves geradas: %d\n",count);
+				printf(" # Qtd de operacoes comp. %d \n", opr);			
 			}
 			return;
 			break;
 		case 2:
+			opf=0;
+			opr=0;
 			system("cls");
 			printf("Informe o total de insercoes: ");
 			scanf("%d",&valor);
@@ -189,9 +194,12 @@ void ins () {
 				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
 				printf(" # Tempo (ms): %f \n", total_t);
 				printf(" # Qtd chaves geradas: %d\n",valor);
-				printf(" # Qtd de chaves geradas iguais: %d\n",verifica(contador));			
+				printf(" # Qtd de operacoes comp. %d \n", opr);			
 			}
 			return;
+			break;
+		case 3:
+			paratudo=1;
 			break;
 		case 4:
 			return;
@@ -232,11 +240,11 @@ int main(){
 				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
 				printf(" # Tempo (ms): %f \n", total_t);
 				printf(" # Qtd chaves geradas: %d\n",valor);
-				printf(" # Qtd de chaves geradas iguais: %d\n",verifica(contador));			
+				printf(" # Qtd de operacoes comp. %d \n", opr);				
 			}
 				break;
 			case 3: {
-				opf=0;
+				opf=0, opr=0;
 				printf("Qtd de Exclusoes: ");
 				scanf("%d", &ex);
 				
@@ -248,14 +256,21 @@ int main(){
 				}
 				clock_t end = clock();
 				total_t = ((double)(end - start)/(CLOCKS_PER_SEC/1000));
+				printf("\n \n Raiz: %d\n",root->key);
+				printf(" # Altura da Arvore: %d\n",altura(root));
+				printf(" # CCN Raiz: %d\n",root->ccn);
+				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
 				printf(" # Tempo (ms): %f \n", total_t);
-				printf(" # Qtd de rotacoes(filhos): %d\n", opf);		
+				printf(" # Qtd chaves geradas: %d\n",valor);
+				printf(" # Qtd de operacoes comp. %d \n", opr);		
 				if (root!=NULL){
-					printf("\n \n Raiz: %d\n",root->key);
-					printf(" # Altura da Arvore: %d\n",altura(root));
-					printf(" # CCN Raiz: %d\n",root->ccn);
-					printf(" # Qtd de rotacoes(filhos): %d\n", opf);
-					printf(" # Tempo (ms): %f \n", total_t);	
+						printf("\n \n Raiz: %d\n",root->key);
+				printf(" # Altura da Arvore: %d\n",altura(root));
+				printf(" # CCN Raiz: %d\n",root->ccn);
+				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
+				printf(" # Tempo (ms): %f \n", total_t);
+				printf(" # Qtd chaves geradas: %d\n",valor);
+				printf(" # Qtd de operacoes comp. %d \n", opr);	
 				}	
 				break;
 				}
