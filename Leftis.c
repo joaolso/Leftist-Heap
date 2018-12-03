@@ -11,15 +11,13 @@
 
 // - 									Leftist Heap 	                                  //
 
-
-// Funcoes  //
-void aloca(int);
 struct node * merge(struct node*, struct node*);
 
 // Variaveis Globais //				
 int opf=0, count=0, opr=0;
 int *htable;
 long int TS=0;
+time_t t;
 
 double total_t=0;
 
@@ -30,15 +28,6 @@ struct node {													// Contrucao da estrutura dos NOS
 }
 
 *temp, *root, *copyroot;
-
-void aloca (int valor){
-	int i=0;
-	TS=valor;
-	htable = (int*) malloc(TS * sizeof(int));
-	for (i=0; i<TS; i++){
-		htable[i]=NULL;
-	}
-}
 
 int altura (struct node *root){									// Funcao pra calcular a altura da arvore
 	int u=0,v=0;
@@ -66,18 +55,6 @@ int visualiza(struct node *ra){									// funcao que imprime em in-Ordem
 		visualiza(ra->right);									// recurssao filho da direita
 	}
 }
-
-//int verifica (int contador){
-//	int i=0,j=0;
-//	for(i = 0; i < TS; i++){
-//	    for(j = i + 1; j < TS; j++){
-//	        if(htable[i] == htable[j])
-//	            contador++;
-//	    }
-//    }
-//    return contador;
-//}
-
 
 int distance(struct node *m){									// Calcula o CCN
 	if(m==NULL)
@@ -132,10 +109,11 @@ struct node * inserir (int valor) {
 
 struct node * inserirAle (int qtd) {
 	clock_t start_t = clock();
+	srand(time(NULL));
 	
 	int i=0;
-	for (i=0;i<=qtd;i++){
-	int valor = ( rand() % INT_MAX +1 );
+	for (i=0;i<qtd;i++){
+	int valor = (rand() ^ rand()) % 1000001;
 	htable[i]=valor;	
 	if (root->key==0)												// Verifica se a primeira vez, logo eh preciso atribuir valor a raiz
 		root->key=valor;
@@ -184,7 +162,6 @@ void ins () {
 			system("cls");
 			printf("Informe o total de insercoes: ");
 			scanf("%d",&valor);
-			aloca (valor);
 			inserirAle(valor);
 			
 			if (root!=NULL){
@@ -244,6 +221,10 @@ int main(){
 			}
 				break;
 			case 3: {
+				if (root->key==0){
+					printf ("Arvore Vazia!");
+					break;	
+				}else {
 				opf=0, opr=0;
 				printf("Qtd de Exclusoes: ");
 				scanf("%d", &ex);
@@ -256,12 +237,9 @@ int main(){
 				}
 				clock_t end = clock();
 				total_t = ((double)(end - start)/(CLOCKS_PER_SEC/1000));
-				printf("\n \n Raiz: %d\n",root->key);
-				printf(" # Altura da Arvore: %d\n",altura(root));
-				printf(" # CCN Raiz: %d\n",root->ccn);
+				
 				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
 				printf(" # Tempo (ms): %f \n", total_t);
-				printf(" # Qtd chaves geradas: %d\n",valor);
 				printf(" # Qtd de operacoes comp. %d \n", opr);		
 				if (root!=NULL){
 						printf("\n \n Raiz: %d\n",root->key);
@@ -273,6 +251,7 @@ int main(){
 				printf(" # Qtd de operacoes comp. %d \n", opr);	
 				}	
 				break;
+				}
 				}
 			case 4:
 				paratudo=1;
