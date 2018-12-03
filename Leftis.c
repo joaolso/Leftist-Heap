@@ -12,6 +12,8 @@
 // - 									Leftist Heap 	                                  //
 
 struct node * merge(struct node*, struct node*);
+struct node * deletar(struct node *root);
+
 
 // Variaveis Globais //				
 int opf=0, count=0, opr=0;
@@ -113,7 +115,7 @@ struct node * inserirAle (int qtd) {
 	
 	int i=0;
 	for (i=0;i<qtd;i++){
-	int valor = (rand() ^ rand()) % 1000001;	
+	int valor = (rand() * rand()) % 1000000+1;	
 	if (root->key==0)												// Verifica se a primeira vez, logo eh preciso atribuir valor a raiz
 		root->key=valor;
 		else{														// Funcao inseri novo no, tabalha juntamente da funcao merge						
@@ -241,13 +243,13 @@ int main(){
 				printf(" # Tempo (ms): %f \n", total_t);
 				printf(" # Qtd de operacoes comp. %d \n", opr);		
 				if (root!=NULL){
-						printf("\n \n Raiz: %d\n",root->key);
-				printf(" # Altura da Arvore: %d\n",altura(root));
-				printf(" # CCN Raiz: %d\n",root->ccn);
-				printf(" # Qtd de rotacoes(filhos): %d\n", opf);
-				printf(" # Tempo (ms): %f \n", total_t);
-				printf(" # Qtd chaves geradas: %d\n",valor);
-				printf(" # Qtd de operacoes comp. %d \n", opr);	
+					printf("\n \n Raiz: %d\n",root->key);
+					printf(" # Altura da Arvore: %d\n",altura(root));
+					printf(" # CCN Raiz: %d\n",root->ccn);
+					printf(" # Qtd de rotacoes(filhos): %d\n", opf);
+					printf(" # Tempo (ms): %f \n", total_t);
+					printf(" # Qtd chaves geradas: %d\n",valor);
+					printf(" # Qtd de operacoes comp. %d \n", opr);	
 				}	
 				break;
 				}
