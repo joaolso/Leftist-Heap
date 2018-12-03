@@ -113,8 +113,7 @@ struct node * inserirAle (int qtd) {
 	
 	int i=0;
 	for (i=0;i<qtd;i++){
-	int valor = (rand() ^ rand()) % 1000001;
-	htable[i]=valor;	
+	int valor = (rand() ^ rand()) % 1000001;	
 	if (root->key==0)												// Verifica se a primeira vez, logo eh preciso atribuir valor a raiz
 		root->key=valor;
 		else{														// Funcao inseri novo no, tabalha juntamente da funcao merge						
